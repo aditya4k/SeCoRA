@@ -56,6 +56,8 @@ cp .env.example .env
 
 ```bash
 python3 src/main.py
+OR
+secora
 ```
 
 2. Access the API documentation at `http://localhost:8000/docs`
