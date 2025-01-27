@@ -1,0 +1,13 @@
+openai
+anthropic
+python-dotenv
+fastapi
+uvicorn
+pydantic
+gitpython
+typing-extensions
+python-multipart
+flask
+waitress
+aiofiles
+setuptools
