@@ -909,8 +909,17 @@ Format response as JSON matching the Vulnerability model structure.
             str: The local path to the cloned or fetched repository
         """
 
+        # Validate the repo_url format
+        import re
+        if not re.match(r'^https?://', repo_url):
+            raise ValueError("Invalid repository URL")
+
         repo_name = repo_url.split('/')[-1].replace('.git', '')
-        repo_path = os.path.join('/tmp', repo_name)  # Temporary directory for the repo
+        repo_path = os.path.normpath(os.path.join('/tmp', repo_name))  # Temporary directory for the repo
+
+        # Ensure the repo_path is within the /tmp directory
+        if not repo_path.startswith('/tmp'):
+            raise ValueError("Invalid repository path")
 
         if os.path.exists(repo_path):
             # If the repository already exists, fetch the latest changes
