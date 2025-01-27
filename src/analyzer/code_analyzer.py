@@ -1,9 +1,10 @@
 import logging
 import os
+import re
 from datetime import datetime
 from functools import lru_cache
-from typing import Any, Dict, List, Set
 from pathlib import Path
+from typing import Any, Dict, List, Set
 
 import git
 
@@ -64,21 +65,30 @@ class CodeAnalyzer:
 
     async def analyze_code(self, code_content: str, filename: str) -> VulnerabilityReport:
         """
-        Analyze a single file for security vulnerabilities with improved validation
+        Analyze a single file for security vulnerabilities with improved validation.
+        Empty files are ignored and return an empty report.
 
         Args:
             code_content: The code content to analyze
             filename: The name of the file
 
         Returns:
-            VulnerabilityReport: The vulnerability report
-
-        Raises:
-            ValueError: If code content is empty or invalid
+            VulnerabilityReport: The vulnerability report, empty for empty files
         """
 
-        if not code_content or not filename:
-            raise ValueError("Code content and filename are required")
+        # Check for empty file
+        if not code_content or not isinstance(code_content, str) or code_content.isspace():
+            logging.info(f"Skipping empty file: {filename}")
+            return VulnerabilityReport(
+                file_name=filename,
+                vulnerabilities=[],
+                chained_vulnerabilities=[],
+                timestamp=datetime.now()
+            )
+
+        # Validate filename
+        if not filename or not isinstance(filename, str) or filename.isspace():
+            raise ValueError("Filename must be a non-empty string")
 
         # Parse the code to get relevant information
         try:
@@ -370,14 +380,14 @@ Format response as JSON matching the Vulnerability model structure.
                         'CROSS_SITE_SCRIPT': VulnerabilityType.CROSS_SITE_SCRIPTING,
                         'SQL_INJECTION_VULNERABILITY': VulnerabilityType.SQL_INJECTION,
                         'SQLI': VulnerabilityType.SQL_INJECTION,
-                        'RCE': VulnerabilityType.REMOTE_CODE_EXECUTION_RCE,
-                        'REMOTE_CODE_EXEC': VulnerabilityType.REMOTE_CODE_EXECUTION_RCE,
+                        'RCE': VulnerabilityType.REMOTE_CODE_EXECUTION,
+                        'REMOTE_CODE_EXEC': VulnerabilityType.REMOTE_CODE_EXECUTION,
                         'COMMAND_EXEC': VulnerabilityType.OS_COMMAND_INJECTION,
                         'OS_COMMAND_EXEC': VulnerabilityType.OS_COMMAND_INJECTION,
                         'PATH_TRAVERSAL_VULNERABILITY': VulnerabilityType.PATH_TRAVERSAL,
                         'DIRECTORY_TRAVERSAL': VulnerabilityType.PATH_TRAVERSAL,
-                        'IDOR': VulnerabilityType.INSECURE_DIRECT_OBJECT_REFERENCE_IDOR,
-                        'DIRECT_OBJECT_REFERENCE': VulnerabilityType.INSECURE_DIRECT_OBJECT_REFERENCE_IDOR,
+                        'IDOR': VulnerabilityType.INSECURE_DIRECT_OBJECT_REFERENCE,
+                        'DIRECT_OBJECT_REFERENCE': VulnerabilityType.INSECURE_DIRECT_OBJECT_REFERENCE,
                     }
 
                     original_type = vuln_data['type']
@@ -910,15 +920,21 @@ Format response as JSON matching the Vulnerability model structure.
         """
 
         # Validate the repo_url format
-        import re
         if not re.match(r'^https?://', repo_url):
             raise ValueError("Invalid repository URL")
 
         repo_name = repo_url.split('/')[-1].replace('.git', '')
-        repo_path = os.path.normpath(os.path.join('/tmp', repo_name))  # Temporary directory for the repo
 
-        # Ensure the repo_path is within the /tmp directory
-        if not repo_path.startswith('/tmp'):
+        # Get system-appropriate temporary directory
+        if os.name == 'nt':  # Windows
+            temp_dir = os.path.join(os.environ.get('TEMP') or os.environ.get('TMP') or 'C:\\Windows\\Temp')
+        else:  # Unix-like systems
+            temp_dir = '/tmp'
+
+        repo_path = os.path.normpath(os.path.join(temp_dir, repo_name))
+
+        # Ensure the repo_path is within the temp directory
+        if not os.path.commonprefix([temp_dir, repo_path]) == temp_dir:
             raise ValueError("Invalid repository path")
 
         if os.path.exists(repo_path):
