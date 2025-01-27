@@ -923,7 +923,7 @@ Format response as JSON matching the Vulnerability model structure.
         if not re.match(r'^https?://', repo_url):
             raise ValueError("Invalid repository URL")
 
-        repo_name = repo_url.split('/')[-1].replace('.git', '')
+        repo_name = re.sub(r'[^a-zA-Z0-9_\-]', '_', repo_url.split('/')[-1].replace('.git', ''))
 
         # Get system-appropriate temporary directory
         if os.name == 'nt':  # Windows
@@ -934,7 +934,7 @@ Format response as JSON matching the Vulnerability model structure.
         repo_path = os.path.normpath(os.path.join(temp_dir, repo_name))
 
         # Ensure the repo_path is within the temp directory
-        if not os.path.commonprefix([temp_dir, repo_path]) == temp_dir:
+        if not repo_path.startswith(os.path.normpath(temp_dir)):
             raise ValueError("Invalid repository path")
 
         if os.path.exists(repo_path):
