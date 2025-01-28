@@ -9,10 +9,8 @@ An AI-powered tool for detecting and remediating security vulnerabilities in cod
 - Vulnerability chaining to identify interconnected risks
 - Detailed remediation suggestions with secure code examples
 - Support for multiple programming languages
-- Scalable from small projects to enterprise codebases
 - Real-time analysis via API endpoints
 - Comprehensive vulnerability reports with CVSS scoring
-- Integration with CI/CD pipelines
 
 ## Prerequisites
 
