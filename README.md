@@ -6,9 +6,9 @@ An AI-powered tool for detecting and remediating security vulnerabilities in cod
 
 - AI-powered static analysis for security vulnerabilities
 - Detection of OWASP Top 10 and SANS Top 25 vulnerabilities
-- Vulnerability chaining to identify interconnected risks
+- Vulnerability chaining to identify interconnected risks (may not work perfectly)
 - Detailed remediation suggestions with secure code examples
-- Support for multiple programming languages
+- Support for multiple programming languages (Python working fine, other languages need further testing)
 - Real-time analysis via API endpoints
 - Comprehensive vulnerability reports with CVSS scoring
 
