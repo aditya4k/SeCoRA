@@ -8,7 +8,7 @@ An AI-powered tool for detecting and remediating security vulnerabilities in cod
 - Detection of OWASP Top 10 and SANS Top 25 vulnerabilities
 - Vulnerability chaining to identify interconnected risks (may not work perfectly)
 - Detailed remediation suggestions with secure code examples
-- Support for multiple programming languages (Python working fine, other languages need further testing)
+- Support for Python code analysis (other languages need further testing)
 - Real-time analysis via API endpoints
 - Comprehensive vulnerability reports with CVSS scoring
 
@@ -98,3 +98,8 @@ ANTHROPIC_API_KEY=your_anthropic_key
 ## License
 
 MIT License
+
+## NOTE
+
+- This tool has been primarily tested with Python codebases. Support for other programming languages is under development and needs further testing.
+- Currently tested and compatible with OpenAI models including GPT o1-mini, 4o and 4o-mini.
