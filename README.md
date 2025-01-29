@@ -106,3 +106,12 @@ MIT License
 
 - This tool has been primarily tested with Python codebases. Support for other programming languages is under development and needs further testing.
 - Currently tested and compatible with OpenAI models including GPT o1-mini, 4o and 4o-mini.
+
+## 🔮 Future Improvements
+
+- 🌍 Support for additional programming languages (Java, JavaScript, Go, etc.)
+- 🤖 Integration with more AI models and providers
+- 🤝 Integration with popular CI/CD platforms
+- 📈 Enhanced reporting
+- 🔍 Pull Request scanning with automated security reviews
+- 💬 Inline code comments for PR feedback
