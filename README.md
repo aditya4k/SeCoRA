@@ -98,10 +98,6 @@ OPENAI_API_KEY=your_openai_key
 ANTHROPIC_API_KEY=your_anthropic_key
 ```
 
-## 📄 License
-
-MIT License
-
 ## ⚠️ NOTE
 
 - This tool has been primarily tested with Python codebases. Support for other programming languages is under development and needs further testing.
