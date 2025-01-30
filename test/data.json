@@ -1,5 +1,0 @@
-{
-    'repository_url': 'https://github.com/username/repo',
-    'branch': 'main',
-    'scan_depth': 3
-}
