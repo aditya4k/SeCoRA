@@ -1,5 +1,6 @@
 .env
-.venv
+.env.example
+.venv/
 .vscode
 __pycache__
 SeCoRA.egg-info

@@ -16,11 +16,11 @@ class AIClient:
 
         # Initialize Ollama, OpenAI, and Anthropic clients
         # self.ollama_base_url = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
-        self.openai_client = openai.Client(api_key=os.getenv("OPENAI_API_KEY"))
+        #self.openai_client = openai.Client(api_key=os.getenv("OPENAI_API_KEY"))
         self.anthropic_client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
         # Default to gpt-4o-mini for security analysis (OpenAI)
-        self.openai_default_model = "o1-mini-2024-09-12"
+        #self.openai_default_model = "o1-mini-2024-09-12"
 
         # Default to local model for security analysis (Local Model)
         # self.local_default_model = "deepseek-r1:32b"  # or any other model you have pulled in Ollama
@@ -45,9 +45,9 @@ class AIClient:
             #     return response
 
             # Try with OpenAI second
-            response = await self._analyze_with_openai(self.openai_client, prompt, self.openai_default_model)
-            if self._validate_response(response):
-                return response
+            # response = await self._analyze_with_openai(self.openai_client, prompt, self.openai_default_model)
+            # if self._validate_response(response):
+            #     return response
 
             # Fallback to Anthropic if OpenAI response is invalid (not tested enough)
             response = await self._analyze_with_anthropic(prompt)
